@@ -1,5 +1,6 @@
 void handleappsmenu() {
-  const char* menuItems[] = {"calculator", "pomdoro timer", "wave creator", "snake game", "sd flasher tool", "spacecraft game", "pass generator"};
+  // "sd flasher tool" removed: requires microSD card (not present on this build).
+  const char* menuItems[] = {"calculator", "pomdoro timer", "wave creator", "snake game", "spacecraft game", "pass generator"};
   const int menuLength = sizeof(menuItems) / sizeof(menuItems[0]);
   const int visibleItems = 3;
 
@@ -49,30 +50,13 @@ void handleappsmenu() {
 
 
        break;
-      case 4:
-      if (!SD.begin(SD_CS)) {
-    u8g2.clearBuffer();  
-    u8g2.drawStr(0, 20, "SD init failed!");
-    u8g2.sendBuffer();
-    while (1);
-  }
-       readSDfiles(); ///run once 
-       drawMenu();   //// run ince
-
-       //add flasher loop
-       
-       runLoop(flasherloop);
-       
-
-        break;
-
-        case 5:
+        case 4: // spacecraft game
          randomSeed(analogRead(0));
          runLoop(spacegame);
          
         break;
 
-        case 6:
+        case 5: // pass generator
         
         runLoop(loading);
         

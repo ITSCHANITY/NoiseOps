@@ -350,10 +350,12 @@ static const unsigned char image_selection_bar_bits[] U8X8_PROGMEM =  {
 	0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 
 	0xf8, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00
 };
+// NOTE: Menu trimmed to hardware actually present on this build.
+// Hidden (missing external hardware): "infrared" (IR TX/RX), "nrf tools" (nRF24 x2), "files" (microSD).
+// Kept: subghz (CC1101), gpio, wifi/ble/bad usb (built into ESP32-S3), apps, settings, nfc (PN532).
 const char* menuItems[] = {
-  "infrared", "subghz", "gpio",
-  "nrf tools", "wifi", "ble",
-  "files", "apps", "settings",
+  "subghz", "gpio", "wifi",
+  "ble", "apps", "settings",
   "nfc", "bad usb"
 };
 
@@ -437,18 +439,16 @@ struct MenuIconSet {
   int frameCount;
 };
 
+// Icon sets must stay parallel to menuItems[] above.
 MenuIconSet menuIcons[] = {
-  {infrared_icons, 6}, /////1 option icon
-  {subghz_icons, 6},   /////2 option icon
-  {gpio_icons, 8},     /////3 option icon
-  {nrftools_icons, 6},     /////4 option icon
-  {wifi_icons, 6},      /////5 option icon
-  {ble_icons, 6},     /////6 option icon
-  {files_icons, 10},    /////7 option icon
-  {apps_icons, 9},      /////8 option icon
-  {settings_icons, 10},  /////9 option icon
-  {nfc_icons, 6},       /////10 option icon
-  {badusb_icons, 11},    /////11 option icon
+  {subghz_icons, 6},     /////1 subghz
+  {gpio_icons, 8},       /////2 gpio
+  {wifi_icons, 6},       /////3 wifi
+  {ble_icons, 6},        /////4 ble
+  {apps_icons, 9},       /////5 apps
+  {settings_icons, 10},  /////6 settings
+  {nfc_icons, 6},        /////7 nfc
+  {badusb_icons, 11},    /////8 bad usb
 };
 
 const int MENU_LEN = sizeof(menuItems) / sizeof(menuItems[0]);
@@ -495,49 +495,33 @@ void drawmainMenu() {
 
 
 void handleMenuAction(int index) {
+  // Indices must match the trimmed menuItems[] / menuIcons[] order above.
   switch (index) {
-    case 0:
-      runLoop(handleinfraredmenu);
-      break;
-    case 1:
+    case 0: // subghz (CC1101)
        runLoop(handlesubghzmenu);
       break;
-    case 2:
+    case 1: // gpio
       runLoop(handlegpiomenu);
       break;
-    case 3:
-     runLoop(handlenrftoolsmenu);
-      break;
-    case 4:
+    case 2: // wifi (ESP32-S3 built-in)
         runLoop(handlewifimenu);
       break;
-    case 5:
+    case 3: // ble (ESP32-S3 built-in)
       runLoop(handleblemenu);
       break;
-    case 6:
-       filesetup();
-       loading();
-       runLoop(filemenu);
-      break;
-    case 7:
+    case 4: // apps
        runLoop(handleappsmenu);
       break;
-    case 8:
+    case 5: // settings
       runLoop(handlesettingsmenu);
       break;
-    case 9:
+    case 6: // nfc (PN532)
      runLoop(handlenfcmenu);
       break;
-    case 10:
+    case 7: // bad usb (ESP32-S3 built-in USB)
       runLoop(handlebadusbmenu);
       break;
-
-
-
   }
-
- 
- 
 }
 
 
