@@ -1,9 +1,3 @@
-![WhatsApp Image 2026-02-07 at 1 03 42 AM (1)](https://github.com/user-attachments/assets/6f943263-805b-42b5-a672-a311f1e12852)
-
-<img width="730" height="424" alt="ezgif-87e0d5184e1fcf6c" src="https://github.com/user-attachments/assets/593a7b77-f164-40a6-9153-d52cefb520a6" />
-
-<img width="732" height="412" alt="ezgif-8a28a8ec069a4567" src="https://github.com/user-attachments/assets/ec7b858d-b7ce-449f-81c9-e9eb2bc9c4f7" />
-
 # NoiseOps
 
 NoiseOps is an open-source, Flipper Zero–style multi-tool built around the **ESP32-S3 (N16R8)**. It is a portable pentesting and embedded-engineering platform with an OLED UI driven by six buttons.
@@ -345,8 +339,13 @@ For bugs and feature ideas, please open an issue.
 
 ## Credits
 
-This project is based on an existing open-source multi-tool firmware. The original code was created by a prior author; **NoiseOps** adapted and built upon that codebase — reworking the branding, boot and idle animations, menu, and hardware configuration for the ESP32-S3 (N16R8) build.
+NoiseOps is an adaptation of an existing open-source multi-tool firmware (originally named **HIZMOS**).
 
-Credit for the underlying firmware goes to its original open-source author(s). NoiseOps is the adapted and maintained version.
+**Original firmware authors:**
+- **Youssef Hikal** — original author and lead developer of the firmware (menus, Sub-GHz, NFC, IR, Wi-Fi, BLE, and core system)
+- **Omar Kamel** — co-developer
+- Published under the **HIKTRON** name.
+
+**NoiseOps** adapted and built upon that codebase — reworking the branding, boot and idle animations, menu, and hardware configuration for the ESP32-S3 (N16R8) build. Full credit for the underlying firmware goes to the original authors listed above.
 
 See `LICENSE` for license terms.
