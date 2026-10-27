@@ -90,7 +90,12 @@ uint16_t addr = IrReceiver.decodedIRData.address;
 uint16_t cmd = IrReceiver.decodedIRData.command;
 uint8_t bits = IrReceiver.decodedIRData.numberOfBits;
 uint8_t rawlen = IrReceiver.decodedIRData.rawDataPtr->rawlen;
-const char* type = IrReceiver.getProtocolString();
+// IRremote 4.x returns a flash string here; copy it into a RAM buffer so
+// u8g2.drawStr() (which needs a const char*) can use it.
+char typeBuf[20];
+strncpy_P(typeBuf, (const char*)IrReceiver.getProtocolString(), sizeof(typeBuf) - 1);
+typeBuf[sizeof(typeBuf) - 1] = '\0';
+const char* type = typeBuf;
 
 // تحويل الأرقام إلى نصوص
 char addrStr[10];

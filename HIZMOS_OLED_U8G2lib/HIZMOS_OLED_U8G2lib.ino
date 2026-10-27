@@ -736,6 +736,139 @@ static const unsigned char image_SDcardMounted_bits[] U8X8_PROGMEM = {0xff,0x07,
 
 
 
+// ===== Animated "NoiseOps" idle / screensaver =====
+// Non-blocking: called repeatedly from loop() while autoMode is active.
+// "NoiseOps" drifts around the screen (bounces off edges) with a blinking
+// cursor and a little animated signal-bar motif so it reads as a radio tool.
+void drawNoiseOpsIdle() {
+  const char* title = "NoiseOps";
+  const int screenW = 128;
+  const int screenH = 64;
+
+  // Persistent animation state
+  static int  posX = 10, posY = 30;      // top-left of the text
+  static int  velX = 1,  velY = 1;        // drift velocity
+  static unsigned long lastMove = 0;
+  static unsigned long lastBlink = 0;
+  static bool cursorOn = true;
+  static int  barPhase = 0;
+
+  u8g2.setFontMode(1);
+  u8g2.setBitmapMode(1);
+  u8g2.setFont(u8g2_font_logisoso16_tr);
+
+  int textW = u8g2.getStrWidth(title);
+  int textH = 16;
+
+  unsigned long now = millis();
+
+  // Move the text roughly every 40ms (smooth drift without hogging the loop)
+  if (now - lastMove >= 40) {
+    lastMove = now;
+    posX += velX;
+    posY += velY;
+
+    // Bounce off the edges (leave room for the blinking cursor on the right)
+    if (posX <= 0)                     { posX = 0;                     velX = -velX; }
+    if (posX + textW + 4 >= screenW)   { posX = screenW - textW - 4;   velX = -velX; }
+    if (posY <= 0)                     { posY = 0;                     velY = -velY; }
+    if (posY + textH >= screenH)       { posY = screenH - textH;       velY = -velY; }
+
+    barPhase = (barPhase + 1) % 8;  // advance signal-bar animation
+  }
+
+  // Blink the cursor twice a second
+  if (now - lastBlink >= 500) {
+    lastBlink = now;
+    cursorOn = !cursorOn;
+  }
+
+  u8g2.clearBuffer();
+  u8g2.setDrawColor(1);
+
+  // Title (drawStr uses the baseline, so add textH to the top position)
+  u8g2.drawStr(posX, posY + textH, title);
+
+  // Blinking cursor just after the text
+  if (cursorOn) {
+    u8g2.drawBox(posX + textW + 2, posY + 2, 2, textH - 2);
+  }
+
+  // Animated signal bars that ride just under the text (grow/shrink)
+  for (int i = 0; i < 4; i++) {
+    int h = 2 + ((barPhase + i) % 8);        // 2..9 px, phased per bar
+    int bx = posX + i * 5;
+    int by = posY + textH + 5;
+    if (by + h < screenH) {
+      u8g2.drawBox(bx, by, 3, h);
+    }
+  }
+
+  u8g2.sendBuffer();
+}
+
+
+
+// ===== Animated "NoiseOps" boot intro =====
+// 128x64 display. Title sweeps in, underline wipes across, then a short pulse.
+void drawNoiseOpsIntro() {
+  const char* title = "NoiseOps";
+  const int   screenW = 128;
+  const int   screenH = 64;
+
+  u8g2.setFontMode(1);
+  u8g2.setBitmapMode(1);
+  u8g2.setFont(u8g2_font_logisoso16_tr);
+
+  int textW = u8g2.getStrWidth(title);
+  int textX = (screenW - textW) / 2;
+  int baseY = 36;  // text baseline
+
+  // --- Phase 1: slide the title in from the left ---
+  for (int x = -textW; x <= textX; x += 6) {
+    u8g2.clearBuffer();
+    u8g2.setDrawColor(1);
+    u8g2.drawStr(x, baseY, title);
+    u8g2.sendBuffer();
+    delay(18);
+  }
+
+  // --- Phase 2: wipe an underline across beneath the title ---
+  int lineY = baseY + 6;
+  for (int w = 0; w <= textW; w += 5) {
+    u8g2.clearBuffer();
+    u8g2.drawStr(textX, baseY, title);
+    u8g2.drawBox(textX, lineY, w, 2);
+    u8g2.sendBuffer();
+    delay(14);
+  }
+
+  // --- Phase 3: blink a row of loading dots, then pulse the title ---
+  for (int i = 0; i < 4; i++) {
+    u8g2.clearBuffer();
+    u8g2.drawStr(textX, baseY, title);
+    u8g2.drawBox(textX, lineY, textW, 2);
+    int dots = i % 4;               // 0..3 dots
+    for (int d = 0; d < dots; d++) {
+      u8g2.drawDisc(screenW / 2 - 8 + d * 8, 54, 2);
+    }
+    u8g2.sendBuffer();
+    delay(220);
+  }
+
+  // Final frame with full underline and all dots, held briefly
+  u8g2.clearBuffer();
+  u8g2.drawStr(textX, baseY, title);
+  u8g2.drawBox(textX, lineY, textW, 2);
+  for (int d = 0; d < 3; d++) {
+    u8g2.drawDisc(screenW / 2 - 8 + d * 8, 54, 2);
+  }
+  u8g2.sendBuffer();
+  delay(400);
+
+  u8g2.setDrawColor(1);  // restore default draw color
+}
+
 
 
 void setup() {
@@ -788,12 +921,7 @@ void setup() {
      //////////////////nessesarry to activate modules or activate manually
   
   
-  drawstartinfo();
-  delay(1000);
-  u8g2.clearBuffer();
-  displayImage(config2);
-  u8g2.sendBuffer();
-  delay(1000);
+  drawNoiseOpsIntro();
   checksysdevices();
   delay(1000);
   activateSD();
@@ -808,15 +936,7 @@ void loop() {
  
 
   if (autoMode) {
-    if (millis() - lastImageChangeTime > 300) {
-      autoImageIndex = (autoImageIndex + 1) % totalAutoImages;
-      lastImageChangeTime = millis();
-    }
-     
-    displaymainanim(autoImages[autoImageIndex], batteryPercent, sdOK);
-  
-     
-   
+    drawNoiseOpsIdle();
   } else {
    handlemainmenu(); 
   }
