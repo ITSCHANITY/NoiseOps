@@ -1,13 +1,13 @@
 
 // Messages
 const char* lines[] = {
-  "Project by Hiktron",
-  "Instagram: hiktron",
-  "YouTube: hiktron",
-  "Support us",
+  "NoiseOps",
+  "Adapted from",
+  "open-source",
+  "firmware.",
   "For more open",
   "source projects",
-  "HI MATE",
+  "stay tuned",
 };
 
 const int totalLines = sizeof(lines) / sizeof(lines[0]);

@@ -125,18 +125,17 @@ void handlebadusbmenu() {
   delay(2000);
 
   Keyboard.println("");
-  Keyboard.println("██╗  ██╗██╗███████╗███╗   ███╗ ██████╗ ███████╗");
-  Keyboard.println("██║  ██║██║     ██╝████╗ ████║██╔═══██╗██╔════╝");
-  Keyboard.println("███████║██║  ███╗  ██╔████╔██║██║   ██║███████╗");
-  Keyboard.println("██╔══██║██║██╔══╝  ██║╚██╔╝██║██║   ██║╚════██║");
-  Keyboard.println("██║  ██║██║███████╗██║ ╚═╝ ██║╚██████╔╝███████║");
-  Keyboard.println("╚═╝  ╚═╝╚═╝╚══════╝╚═╝     ╚═╝ ╚═════╝ ╚══════╝");
+  Keyboard.println("███╗   ██╗ ██████╗ ██╗███████╗███████╗ ██████╗ ██████╗ ███████╗");
+  Keyboard.println("████╗  ██║██╔═══██╗██║██╔════╝██╔════╝██╔═══██╗██╔══██╗██╔════╝");
+  Keyboard.println("██╔██╗ ██║██║   ██║██║███████╗█████╗  ██║   ██║██████╔╝███████╗");
+  Keyboard.println("██║╚██╗██║██║   ██║██║╚════██║██╔══╝  ██║   ██║██╔═══╝ ╚════██║");
+  Keyboard.println("██║ ╚████║╚██████╔╝██║███████║███████╗╚██████╔╝██║     ███████║");
+  Keyboard.println("╚═╝  ╚═══╝ ╚═════╝ ╚═╝╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚══════╝");
   Keyboard.println("");
-  Keyboard.println("         — CREATED BY HIKTRON —");
-  Keyboard.println("- HIZMOS IS A FLIPPER ZERO REPLICA 'OPEN SOURCE' -");
+  Keyboard.println("              — NoiseOps —");
+  Keyboard.println("- FLIPPER ZERO STYLE MULTI-TOOL 'OPEN SOURCE' -");
   Keyboard.println("");
-  Keyboard.println(".......... DEVELOPERS ..........");
-  Keyboard.println("{ YOUSSEF I HIKAL && OMAR KAMEL }");
+  Keyboard.println("Based on open-source firmware, adapted by NoiseOps.");
   Keyboard.println("");
   Keyboard.println("     \"\"\" MULTI TOOL DEVICE \"\"\"");
   Keyboard.println("");

@@ -92,11 +92,11 @@ static const unsigned char image_wit201i_hizmos_oledhizmos_oled_bits[] U8X8_PROG
     u8g2.setBitmapMode(1);
     // Layer 1
     u8g2.setFont(u8g2_font_profont17_tr);
-    u8g2.drawStr(44, 19, "HIZMOS V1");
+    u8g2.drawStr(44, 19, "NoiseOps");
 
     // Layer 3
     u8g2.setFont(u8g2_font_haxrcorp4089_tr);
-    u8g2.drawStr(55, 55, "by HIKTRON");
+    u8g2.drawStr(50, 55, "open source");
 
     // Layer 4
     u8g2.setFont(u8g2_font_timR12_tr);

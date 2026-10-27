@@ -8,7 +8,7 @@
 
 NoiseOps is an open-source, Flipper Zero–style multi-tool built around the **ESP32-S3 (N16R8)**. It is a portable pentesting and embedded-engineering platform with an OLED UI driven by six buttons.
 
-> **Note:** The Arduino sketch, prebuilt binaries, and PCB files in this repository keep their original `HIZMOS_OLED_U8G2lib` names. That is intentional — the firmware and flashing workflow are unchanged. "NoiseOps" is the project name.
+> **Note:** Some sketch, binary, and PCB files in this repository keep legacy file and folder names inherited from the original codebase this project was adapted from. Those names are left unchanged only so the build and flashing steps work as written — "NoiseOps" is the project name.
 
 > **Disclaimer:** NoiseOps is intended for education, research, and testing on hardware you own or are authorized to test. Transmitting on RF bands and interacting with wireless devices may be regulated in your region. You are responsible for using it legally and responsibly.
 
@@ -331,7 +331,7 @@ NoiseOps/                       (repository root)
 └── LICENSE
 ```
 
-The `HIZMOS_*` file and folder names are kept as-is so the build and flashing steps above work without changes.
+The legacy file and folder names above are kept as-is so the build and flashing steps work without changes.
 
 ## Contributing
 
@@ -345,6 +345,8 @@ For bugs and feature ideas, please open an issue.
 
 ## Credits
 
-Created by **HIKTRON**. Developers: **Youssef I. Hikal** and **Omar Kamel**.
+This project is based on an existing open-source multi-tool firmware. The original code was created by a prior author; **NoiseOps** adapted and built upon that codebase — reworking the branding, boot and idle animations, menu, and hardware configuration for the ESP32-S3 (N16R8) build.
+
+Credit for the underlying firmware goes to its original open-source author(s). NoiseOps is the adapted and maintained version.
 
 See `LICENSE` for license terms.
